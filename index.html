@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dearest Love</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+      height: 100vh;
+      background: black;
+      color: white;
+    }
+
+    .slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    .slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fade 24s infinite;
+    }
+
+    .slideshow img:nth-child(1) { animation-delay: 0s; }
+    .slideshow img:nth-child(2) { animation-delay: 8s; }
+    .slideshow img:nth-child(3) { animation-delay: 16s; }
+
+    @keyframes fade {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      30% { opacity: 1; }
+      40% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      z-index: 2;
+      position: relative;
+      text-align: center;
+    }
+
+    .toggle-button {
+      padding: 20px 40px;
+      background: linear-gradient(45deg, #ff6699, #ff99cc);
+      color: white;
+      font-size: 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .toggle-button:hover {
+      transform: scale(1.1);
+    }
+
+    .close-button {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #ff4081;
+      color: white;
+      font-size: 16px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
+    .letter {
+      display: none;
+      background: url('https://i.imgur.com/gDWaB6C.png'); /* 手紙風背景画像 */
+      background-size: cover;
+      background-position: center;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      padding: 40px 30px;
+      width: 80%;
+      max-width: 700px;
+      height: 70vh;
+      overflow-y: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      animation: fadeIn 0.5s ease-in-out;
+      font-size: 18px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .letter.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .firework {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff, transparent);
+      animation: explode 0.8s forwards;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(15); opacity: 0; }
+    }
+
+    .typing-text span {
+      opacity: 0;
+      animation: typingEffect 0.03s forwards;
+    }
+
+    @keyframes typingEffect {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="slideshow">
+    <img src="images/memory1.jpg" alt="memory1" />
+    <img src="images/memory2.jpg" alt="memory2" />
+    <img src="images/memory3.jpg" alt="memory3" />
+    <img src="images/memory4.jpg" alt="memory4" />
+  </div>
+
+  <div class="container">
+    <button class="toggle-button" onclick="showLetter()">Open if you want</button>
+    <div class="letter" id="loveLetter">
+      <div class="typing-text" id="letterText"></div>
+    </div>
+  </div>
+
+  <button class="close-button" onclick="closeLetter()">×</button>
+
+  <script>
+    const message = `Dear mahal,\n\nI really love you mahal ko. Hinde ko kaya i-explain kon pano kita love mahal.\n\nEvery moment with you feels like a beautiful dream. Your smile brightens my darkest days, and your voice is the most beautiful melody to my ears.\n\nこれからもずっとあなたがそばにいてほしいし、あなたの一番そばにいたいです。\n\nI promise to cherish you, to stand by your side through all of life's ups and downs, and to love you more each day than I did the day before.\n\nYou are my everything, my happiness, and my greatest blessing.\n\nForever yours,\n\nYour Lover`;
+
+    function showLetter() {
+      document.querySelector(".toggle-button").style.display = "none";
+      const letter = document.getElementById("loveLetter");
+      letter.classList.add("show");
+      document.querySelector(".close-button").style.display = "block";
+
+      const textContainer = document.getElementById("letterText");
+      textContainer.innerHTML = '';
+
+      let delay = 0;
+      message.split('').forEach((char, i) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.style.animationDelay = `${delay}s`;
+        textContainer.appendChild(span);
+        delay += 0.03;
+      });
+    }
+
+    function closeLetter() {
+      const letter = document.getElementById("loveLetter");
+      letter.classList.remove("show");
+      document.querySelector(".toggle-button").style.display = "block";
+      document.querySelector(".close-button").style.display = "none";
+      document.getElementById("letterText").innerHTML = '';
+
+      const firework = document.createElement("div");
+      firework.classList.add("firework");
+      document.body.appendChild(firework);
+
+      setTimeout(() => {
+        firework.remove();
+      }, 800);
+    }
+  </script>
+</body>
+</html>
